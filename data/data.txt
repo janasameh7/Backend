@@ -1,0 +1,4 @@
+Jana
+Gendy2004
+mongodb+srv://Jana:<db_password>@cluster0.pou7xmm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+https://github.com/janasameh7/Backend.git
