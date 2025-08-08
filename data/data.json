@@ -1,0 +1,53 @@
+[
+  {
+    "title": "The Great Gatsby", 
+    "language": "English",
+    "description": "A story of wealth, love, and the American Dream in the 1920s.",
+    "pageCount": 180, 
+    "ratings": 4.2,
+    "totalRatings": 4823,
+    "publicationYear": 1925, 
+    "releaseDate": "1925-04-10T00:00:00Z", 
+    "genres": ["Fiction", "Classic"], 
+    "authors": ["F. Scott Fitzgerald"], 
+    "coverImage": "https://example.com/great-gatsby.jpg", 
+    "trailerUrl": "https://youtube.com/example-great-gatsby", 
+    "actors": [], 
+    "price": 7.99,
+    "isAvailable": true
+  },
+  {
+    "title": "To Kill a Mockingbird",
+    "language": "English",
+    "description": "A story of racial injustice and the loss of innocence in a small town.",
+    "pageCount": 281,
+    "ratings": 4.8,
+    "totalRatings": 10234,
+    "publicationYear": 1960,
+    "releaseDate": "1960-07-11T00:00:00Z",
+    "genres": ["Fiction", "Classic"],
+    "authors": ["Harper Lee"],
+    "coverImage": "https://example.com/to-kill-a-mockingbird.jpg",
+    "trailerUrl": "https://youtube.com/example-to-kill-a-mockingbird",
+    "actors": [],
+    "price": 5.5,
+    "isAvailable": true
+  },
+  {
+    "title": "The Art of War",
+    "language": "Chinese",
+    "description": "An ancient military treatise on strategy and tactics.",
+    "pageCount": 272,
+    "ratings": 3.9,
+    "totalRatings": 874,
+    "publicationYear": 500,
+    "releaseDate": "0500-01-01T00:00:00Z",
+    "genres": ["Non-Fiction", "History"],
+    "authors": ["Sun Tzu"],
+    "coverImage": "https://example.com/art-of-war.jpg",
+    "trailerUrl": "https://youtube.com/example-art-of-war",
+    "actors": [],
+    "price": 6.0,
+    "isAvailable": true
+  }
+]
