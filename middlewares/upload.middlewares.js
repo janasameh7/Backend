@@ -7,7 +7,7 @@ const diskStorage = multer.diskStorage({
   filename: function (req, file, cb) {
     const extension = file.mimetype.split("/")[1];
     const prefix = req.body.type === "book" ? "book-" : "user-"; 
-    const fileName = `${prefix}${Date.now()}.${extension}`;
+    const fileName = `user-${Date.now()}.${extension}`;
     cb(null, fileName);
   },
 });

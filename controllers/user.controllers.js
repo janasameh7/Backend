@@ -6,7 +6,7 @@ const path = require("path");
 
 const getAllUsers = async (req, res) => {
     try {
-        const users = await User.find({ password: false, __v: false });
+        const users = await User.find();
         res.status(200)
             .json({
                 status: "success",
@@ -21,8 +21,10 @@ const getAllUsers = async (req, res) => {
 
 const signup = async (req, res) => {
     try {
+        
         let { password, confirmPassword, photo, name, email } = req.body;
-        console.log(req.body)
+        console.log(req.body);
+        
         if (password !== confirmPassword) {
             if (req.file) {
                 fs.unlinkSync(path.join(__dirname, "..", "uploads", req.file.filename));
@@ -75,7 +77,7 @@ const login = async (req, res) => {
         if (!email || !password) {
             return res.status(400).json({ status: "fail", message: "Email or Password is missing" });
         }
-        const existingUser = await User.findOne({ email: email }); // Corrected typo: fineOne to findOne
+        const existingUser = await User.findOne({ email: email }); 
         if (!existingUser) {
             return res.status(404).json({ status: "fail", message: "User not found" });
         }

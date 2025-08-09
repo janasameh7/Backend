@@ -8,9 +8,9 @@ const bookSchema = new mongoose.Schema({
         trim: true,
     },
     language: {
-        type: String,
-        required: [true, "Language is required"],
-        enum: ["English", "Arabic", "French"],
+    type: String,
+    required: [true, "Language is required"],
+    enum: ["English", "Arabic", "French", "Korean", "Spanish", "Chinese", "Japanese", "Hindi"] 
     },
     createdAt: {
         type: Date,
