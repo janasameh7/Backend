@@ -2,6 +2,8 @@ const connectDB = require("../config/db");
 const booksData = require("./books.json"); 
 const Book = require("../models/books.models"); 
 
+require("dotenv").config();
+
 const insertBooks = async () => {
     try {
         await connectDB();

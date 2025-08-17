@@ -25,17 +25,17 @@ const signup = async (req, res) => {
         let { password, confirmPassword, photo, name, email } = req.body;
         console.log(req.body);
         
-        if (password !== confirmPassword) {
-            if (req.file) {
-                fs.unlinkSync(path.join(__dirname, "..", "uploads", req.file.filename));
-            }
-            return res.status(400).json({
-                status: "fail",
-                message: "Passwords do not match",
-            });
-        }
+        // if (password !== confirmPassword) {
+        //     if (req.file) {
+        //         fs.unlinkSync(path.join(__dirname, "..", "uploads", req.file.filename));
+        //     }
+        //     return res.status(400).json({
+        //         status: "fail",
+        //         message: "Passwords do not match",
+        //     });
+        // }
 
-        const existingUser = await User.findOne({ email: email });
+        const existingUser = await User.findOne({ email});
         if (existingUser) {
             if (req.file) {
                 fs.unlinkSync(path.join(__dirname, "..", "uploads", req.file.filename));
@@ -52,14 +52,14 @@ const signup = async (req, res) => {
 
        
         const token = JWT.sign(
-            { id: user._id, name: name },
+            { id: user._id, email },
             process.env.JWT_SECRET,
             { expiresIn: process.env.JWT_EXPIRES_IN }
         );
 
         res
             .status(201)
-            .json({ status: "success", token: token, data: { user: user } });
+            .json({ status: "success", token, data: { user } });
     } catch (error) {
         if (req.file) {
             fs.unlinkSync(path.join(__dirname, "..", "uploads", req.file.filename));
@@ -77,7 +77,7 @@ const login = async (req, res) => {
         if (!email || !password) {
             return res.status(400).json({ status: "fail", message: "Email or Password is missing" });
         }
-        const existingUser = await User.findOne({ email: email }); 
+        const existingUser = await User.findOne({ email }); 
         if (!existingUser) {
             return res.status(404).json({ status: "fail", message: "User not found" });
         }
@@ -86,12 +86,12 @@ const login = async (req, res) => {
             return res.status(400).json({ status: "fail", message: "Password is wrong" });
         }
         const token = JWT.sign(
-            { id: existingUser._id, name: existingUser.name },
+            { id: existingUser._id, email },
             process.env.JWT_SECRET,
             { expiresIn: process.env.JWT_EXPIRES_IN }
         );
         res.status(200).json({
-            status: "success", token: token, data: { user: existingUser.name, email: existingUser.email } 
+            status: "success", token: token, data: { user: existingUser.name} , message: "login"
         });
     } catch (error) {
         res.status(400).json({ status: "fail", message: `Error in login ${error.message}` }); 
@@ -106,7 +106,7 @@ const addBookToFav = async (req, res) => {
         if (!bookId) {
             return res.status(400).json({ status: "fail", message: "Book Id Required" }); 
         }
-        const user = await User.findById(userId); 
+        const user = await User.findById(userId).populate('favBooks'); 
         if (!user) {
             return res.status(400).json({ status: "fail", message: "User Id Required" });
         }
@@ -114,7 +114,7 @@ const addBookToFav = async (req, res) => {
             user.favBooks.push(bookId); 
             await user.save();
         }
-        res.status(200).json({ status: "success", data: { favBooks: user.favBooks } }); 
+        res.status(200).json({ status: "success", data: { favBooks: user.favBooks }, message:"Book Added" }); 
     } catch (error) {
         res.status(400).json({ status: "fail", message: `Error in adding book to favorites ${error.message}` }); 
     }

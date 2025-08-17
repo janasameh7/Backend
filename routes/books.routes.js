@@ -2,11 +2,12 @@ const booksControllers = require("../controllers/books.controllers");
 const express = require("express");
 const userControllers = require("../controllers/user.controllers");
 
+
 const router = express.Router();
 
 router.route("/")
     .post(booksControllers.createBook)
-    .get(booksControllers.getAllBooks, userControllers.protectRoutes);
+    .get(booksControllers.getAllBooks);
 
 router.route("/:id")
     .get(booksControllers.getBookById)

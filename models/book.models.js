@@ -8,9 +8,9 @@ const bookSchema = new mongoose.Schema({
         trim: true,
     },
     language: {
-    type: String,
-    required: [true, "Language is required"],
-    enum: ["English", "Arabic", "French", "Korean", "Spanish", "Chinese", "Japanese", "Hindi"] 
+        type: String,
+        required: [true, "Language is required"],
+        enum: ["English", "Arabic", "French", "Korean", "Spanish", "Chinese", "Japanese", "Hindi"]
     },
     createdAt: {
         type: Date,
@@ -22,10 +22,7 @@ const bookSchema = new mongoose.Schema({
     genre: { 
         type: [String],
         required: [true, "Genre is required"],
-        enum: {
-            values: [ "Mystery", "Fantasy", "Science Fiction", "Biography", "History"],
-            message: "Genre must be one of: Mystery, Fantasy, Science Fiction, Biography, History"
-        }
+      
     },
     description: { type: String },
     pageCount: {
@@ -40,6 +37,9 @@ const bookSchema = new mongoose.Schema({
     publicationYear: {
         type: Number,
         required: [true, "Publication year is required"]
+    },
+    coverImage: {
+        type: String 
     }
 });
 const Book = mongoose.model("Book", bookSchema);

@@ -1,4 +1,4 @@
-const Book = require("../models/books.models");
+const Book = require("../models/book.models");
 const mongoose = require("mongoose");
 
 const createBook = async (req, res) => {

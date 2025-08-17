@@ -3,6 +3,7 @@ const connectDB = require("./config/db");
 const bookRouter = require("./routes/books.routes"); 
 const userRouter = require("./routes/user.routes");
 const path = require("path");
+const cors = require("cors");
 
 const PORT = process.env.PORT || 5000;
 
@@ -10,6 +11,9 @@ require("dotenv").config();
 
 connectDB();
 const app = express();
+
+app.use(cors({origin:"http://localhost:4200"}));
+
 
 app.use(express.json());
 app.use("/books", bookRouter); 
