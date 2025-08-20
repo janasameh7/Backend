@@ -10,11 +10,12 @@ const bookSchema = new mongoose.Schema({
     language: {
         type: String,
         required: [true, "Language is required"],
-        enum: ["English", "Arabic", "French", "Korean", "Spanish", "Chinese", "Japanese", "Hindi"]
+        enum: ["english", "arabic", "french", "korean", "spanish", "chinese", "japanese", "hindi"],
+        lowercase: true
     },
     createdAt: {
         type: Date,
-        default: Date.now()
+        
     },
     authors: {
         type: [String]

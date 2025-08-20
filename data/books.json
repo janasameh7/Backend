@@ -10,9 +10,7 @@
     "releaseDate": "2010-07-16T00:00:00Z",
     "genres": ["Sci-Fi", "Thriller"],
     "authors": ["Christopher Nolan"],
-    "coverImage": "inception.jpg",
-    "price": 10,
-    "isAvailable": true
+    "coverImage": "inception.jpg"
   },
   {
     "title": "Parasite",
@@ -25,9 +23,7 @@
     "releaseDate": "2019-05-30T00:00:00Z",
     "genres": ["Drama", "Thriller"],
     "authors": ["Bong Joon-ho"],
-    "coverImage": "parasite.jpg",
-    "price": 8,
-    "isAvailable": true
+    "coverImage": "parasite.jpg"
   },
   {
     "title": "Interstellar",
@@ -40,9 +36,7 @@
     "releaseDate": "2014-11-07T00:00:00Z",
     "genres": ["Sci-Fi", "Adventure"],
     "authors": ["Christopher Nolan"],
-    "coverImage": "interstellar.jpg",
-    "price": 12,
-    "isAvailable": true
+    "coverImage": "interstellar.jpg"
   },
   {
     "title": "Coco",
@@ -55,9 +49,7 @@
     "releaseDate": "2017-10-27T00:00:00Z",
     "genres": ["Animation", "Family"],
     "authors": ["Lee Unkrich"],
-    "coverImage": "coco.jpg",
-    "price": 7,
-    "isAvailable": true
+    "coverImage": "coco.jpg"
   },
   {
     "title": "Frozen",
@@ -70,9 +62,7 @@
     "releaseDate": "2013-11-27T00:00:00Z",
     "genres": ["Animation", "Family"],
     "authors": ["Chris Buck", "Jennifer Lee"],
-    "coverImage": "frozen.jpg",
-    "price": 7,
-    "isAvailable": true
+    "coverImage": "frozen.jpg"
   },
   {
     "title": "La La Land",
@@ -85,9 +75,7 @@
     "releaseDate": "2016-12-09T00:00:00Z",
     "genres": ["Drama", "Musical"],
     "authors": ["Damien Chazelle"],
-    "coverImage": "lalaland.jpg",
-    "price": 9,
-    "isAvailable": true
+    "coverImage": "lalaland.jpg"
   },
   {
     "title": "The Pursuit of Happyness",
@@ -100,9 +88,7 @@
     "releaseDate": "2006-12-15T00:00:00Z",
     "genres": ["Biography", "Drama"],
     "authors": ["Gabriele Muccino"],
-    "coverImage": "pursuit.jpg",
-    "price": 9,
-    "isAvailable": true
+    "coverImage": "pursuit.jpg"
   },
   {
     "title": "The Social Network",
@@ -115,8 +101,6 @@
     "releaseDate": "2010-10-01T00:00:00Z",
     "genres": ["Biography", "Drama"],
     "authors": ["David Fincher"],
-    "coverImage": "social_network.jpg",
-    "price": 8,
-    "isAvailable": true
+    "coverImage": "social_network.jpg"
   }
 ]

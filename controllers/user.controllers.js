@@ -1,22 +1,21 @@
 const User = require("../models/user.models");
+const Book = require("../models/book.models");
 const bcrypt = require("bcryptjs");
 const JWT = require("jsonwebtoken"); 
 const fs = require("fs");
 const path = require("path");
 
 const getAllUsers = async (req, res) => {
-    try {
-        const users = await User.find();
-        res.status(200)
-            .json({
-                status: "success",
-                length: users.length,
-                data: { users },
-            });
-    } catch (error) {
-        res.status(400)
-            .json({ status: "fail", message: error.message });
-    }
+  try {
+    const users = await User.find({}, { password: 0, __v: 0 });
+    res.status(200).json({
+      status: "success",
+      length: users.length,
+      data: { users },
+    });
+  } catch (error) {
+    res.status(400).json({ status: "fail", message: error.message });
+  }
 };
 
 const signup = async (req, res) => {
@@ -27,7 +26,7 @@ const signup = async (req, res) => {
         
         // if (password !== confirmPassword) {
         //     if (req.file) {
-        //         fs.unlinkSync(path.join(__dirname, "..", "uploads", req.file.filename));
+        //         fs.unlinkSync(path.join(__dirname, "..", "uploads","users", req.file.filename));
         //     }
         //     return res.status(400).json({
         //         status: "fail",
@@ -38,7 +37,7 @@ const signup = async (req, res) => {
         const existingUser = await User.findOne({ email});
         if (existingUser) {
             if (req.file) {
-                fs.unlinkSync(path.join(__dirname, "..", "uploads", req.file.filename));
+                fs.unlinkSync(path.join(__dirname, "..", "uploads","users", req.file.filename));
             }
             return res.status(400).json({
                 status: "fail",
@@ -62,7 +61,7 @@ const signup = async (req, res) => {
             .json({ status: "success", token, data: { user } });
     } catch (error) {
         if (req.file) {
-            fs.unlinkSync(path.join(__dirname, "..", "uploads", req.file.filename));
+            fs.unlinkSync(path.join(__dirname, "..", "uploads","users", req.file.filename));
         }
         res
             .status(400)
@@ -98,27 +97,75 @@ const login = async (req, res) => {
     }
 };
 
-const addBookToFav = async (req, res) => { 
-    try {
-        const { bookId } = req.body; 
-        const userId = req.userId;
-
-        if (!bookId) {
-            return res.status(400).json({ status: "fail", message: "Book Id Required" }); 
-        }
-        const user = await User.findById(userId).populate('favBooks'); 
-        if (!user) {
-            return res.status(400).json({ status: "fail", message: "User Id Required" });
-        }
-        if (!user.favBooks.includes(bookId)) { 
-            user.favBooks.push(bookId); 
-            await user.save();
-        }
-        res.status(200).json({ status: "success", data: { favBooks: user.favBooks }, message:"Book Added" }); 
-    } catch (error) {
-        res.status(400).json({ status: "fail", message: `Error in adding book to favorites ${error.message}` }); 
+const addBookToFav = async (req, res) => {
+  try {
+    const { bookId } = req.body;
+    const userId = req.userId;
+    if (!bookId || typeof bookId !=='string') {
+      return res.status(400).json({ status: "fail", message: "Book Id Required" });
     }
-}
+    const book = await Book.findById(bookId);
+    if (!book) {
+      return res.status(404).json({ status: "fail", message: "Book not found" });
+    }
+    const user = await User.findById(userId).populate('favBooks');
+    if (!user) {
+      return res.status(404).json({ status: "fail", message: "User not found" });
+    }
+    if (!user.favBooks.some(id => id.toString() === bookId)) {
+      user.favBooks.push(bookId);
+      await user.save();
+    }
+    res.status(200).json({ status: "success", data: { books: user.favBooks }, message: "Book Added" });
+  } catch (error) {
+    res.status(400).json({ status: "fail", message: `Error adding book to favorites: ${error.message}` });
+  }
+};
+
+const removeBookFromFav = async (req, res) => {
+  try {
+    const { bookId } = req.params;
+    const userId = req.userId;
+    if (!bookId || typeof bookId !=='string') {
+      return res.status(400).json({ status: "fail", message: "Book Id Required" });
+    }
+    const user = await User.findById(userId).populate('favBooks');
+    if (!user) {
+      return res.status(404).json({ status: "fail", message: "User not found" });
+    }
+    user.favBooks = user.favBooks.filter(id => id.toString() !== bookId);
+    await user.save();
+    res.status(200).json({ status: "success", data: { books: user.favBooks }, message: "Book Removed" });
+  } catch (error) {
+    res.status(400).json({ status: "fail", message: `Error removing book from favorites: ${error.message}` });
+  }
+};
+
+const getUserFavorites = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).populate('favBooks');
+    if (!user) {
+      return res.status(404).json({ status: "fail", message: "User not found" });
+    }
+    res.status(200).json({ status: "success", data: { books: user.favBooks } });
+  } catch (error) {
+    res.status(500).json({ status: "error", message: error.message });
+  }
+};
+
+const isBookInFavorites = async (req, res) => {
+  try {
+    const { bookId } = req.params;
+    const user = await User.findById(req.userId);
+    if (!user) {
+      return res.status(404).json({ status: "fail", message: "User not found" });
+    }
+    const isFavorite = user.favBooks.some(id => id.toString() === bookId);
+    res.status(200).json({ status: "success", data: { isFavorite } });
+  } catch (error) {
+    res.status(500).json({ status: "error", message: error.message });
+  }
+};
 
 const protectRoutes = async (req, res, next) => {
     try {
@@ -140,4 +187,4 @@ const protectRoutes = async (req, res, next) => {
     }
 }
 
-module.exports = { signup, getAllUsers, login, addBookToFav, protectRoutes }; 
+module.exports = { signup, getAllUsers, login, addBookToFav, removeBookFromFav, getUserFavorites, isBookInFavorites, protectRoutes };

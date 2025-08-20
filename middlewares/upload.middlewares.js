@@ -1,13 +1,35 @@
 const multer = require("multer")
 
-const diskStorage = multer.diskStorage({
+// const diskStorage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "uploads");
+//   },
+//   filename: function (req, file, cb) {
+//     const extension = file.mimetype.split("/")[1];
+//     const prefix = req.body.type === "book" ? "book-" : "user-"; 
+//     const fileName = `user-${Date.now()}.${extension}`;
+//     cb(null, fileName);
+//   },
+// });
+
+const userStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads");
+    cb(null, "uploads/users");
   },
   filename: function (req, file, cb) {
     const extension = file.mimetype.split("/")[1];
-    const prefix = req.body.type === "book" ? "book-" : "user-"; 
     const fileName = `user-${Date.now()}.${extension}`;
+    cb(null, fileName);
+  },
+});
+
+const bookStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/books");
+  },
+  filename: function (req, file, cb) {
+    const extension = file.mimetype.split("/")[1];
+    const fileName = `book-${Date.now()}.${extension}`;
     cb(null, fileName);
   },
 });
@@ -20,6 +42,7 @@ const fileFilter = (req, file, cb) => {
   return cb(new Error("Only image files are allowed"), false);
 };
 
-const upload = multer({ storage: diskStorage, fileFilter: fileFilter });
+const uploadUser = multer({ storage: userStorage, fileFilter: fileFilter });
+const uploadBook = multer({ storage: bookStorage, fileFilter: fileFilter });
 
-module.exports = upload;
+module.exports = { uploadUser, uploadBook };
